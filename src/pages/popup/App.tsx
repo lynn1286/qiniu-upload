@@ -1,6 +1,17 @@
 import { FileOutlined, InboxOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import type { TabsProps, UploadProps } from 'antd'
-import { Alert, Button, Checkbox, Input, Tabs, Tooltip, Upload, message, Empty } from 'antd'
+import {
+  Alert,
+  Button,
+  Checkbox,
+  Input,
+  Tabs,
+  Tooltip,
+  Upload,
+  message,
+  Empty,
+  Divider,
+} from 'antd'
 import { useEffect, useState } from 'react'
 import { useLocalStorageState } from 'ahooks'
 import { QiniuConfig, qiniuUpload } from '@/utils/qiniu'
@@ -9,7 +20,7 @@ import { QINIUKEY } from '../options/App'
 
 const { Dragger } = Upload
 
-let imageRegex = /data:image\/|\.(gif|jpe?g|tiff|png)$/i
+let imageRegex = /data:image\/|\.(gif|jpe?g|tiff|png|bmp)$/i
 
 function FileItem({ fileName, md }: { fileName: string; md: boolean }) {
   if (!fileName) return null
@@ -21,14 +32,14 @@ function FileItem({ fileName, md }: { fileName: string; md: boolean }) {
           copyTextToClipboard(md ? `![](${fileName} "图片alt")` : fileName)
           message.success('已复制到粘贴板')
         }}
-        className="file-item"
+        className="cursor-pointer hover:bg-[#e0f2fe] rounded"
       >
         <img src={fileName} style={{ width: '100%' }} />
       </div>
     )
   } else {
     return (
-      <div className="file-item">
+      <div className="cursor-pointer hover:bg-[#e0f2fe] rounded">
         <div
           onClick={() => {
             copyTextToClipboard(fileName)
@@ -142,7 +153,7 @@ function IndexPopup() {
     {
       key: '2',
       label: '历史记录',
-      style: { height: 250, overflow: 'auto' },
+      style: { height: 600, overflow: 'auto' },
       children: (
         <>
           {!!imgList?.length ? (
@@ -152,8 +163,11 @@ function IndexPopup() {
                   清除记录
                 </Button>
               </div>
-              {imgList?.map((fileName) => (
-                <FileItem md={!!md} fileName={fileName} key={fileName} />
+              {imgList?.map((fileName, idx) => (
+                <>
+                  <FileItem md={!!md} fileName={fileName} key={fileName} />
+                  {idx !== imgList.length - 1 && <Divider />}
+                </>
               ))}
             </>
           ) : (

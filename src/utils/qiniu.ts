@@ -149,7 +149,7 @@ export async function qiniuUpload(file: File, qiniuConfig: QiniuConfig): Promise
         console.log(result)
       },
       error: (err) => {
-        reject(err.message)
+        reject(err)
       },
       complete: (result) => {
         resolve(`${domain}/${result.key}`)
