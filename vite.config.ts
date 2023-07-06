@@ -16,8 +16,13 @@ export default defineConfig({
       output: {
         chunkFileNames: 'static/[name].js',
         entryFileNames: 'static/[name].js',
-        assetFileNames: 'static/[name].[ext]'
-      }
-    }
-  }
+        assetFileNames: 'static/[name].[ext]',
+      },
+    },
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(ROOT_DIR, './src'),
+    },
+  },
 })
