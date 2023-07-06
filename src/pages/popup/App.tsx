@@ -54,10 +54,16 @@ function FileItem({ fileName, md }: { fileName: string; md: boolean }) {
 }
 
 function IndexPopup() {
-  const [md, setMd] = useLocalStorageState<boolean>('copyMd', { defaultValue: false })
-  const [imgList, setimgList] = useLocalStorageState<string[]>('fileList', {
-    defaultValue: [],
-  })
+  const [md, setMd] = useLocalStorageState<boolean>(
+    'COPY_MD_2518579d-ffa6-502b-a663-8f10e3ba796c',
+    { defaultValue: false }
+  )
+  const [imgList, setimgList] = useLocalStorageState<string[]>(
+    'FILELIST_9c08834d-9a6c-68bb-806f-1a26e45f8294',
+    {
+      defaultValue: [],
+    }
+  )
   const [qiniuConfig] = useLocalStorageState<Partial<QiniuConfig>>(QINIUKEY)
   const [activeKey, setActiveKey] = useState('1')
 
@@ -165,7 +171,7 @@ function IndexPopup() {
               </div>
               {imgList?.map((fileName, idx) => (
                 <>
-                  <FileItem md={!!md} fileName={fileName} key={fileName} />
+                  <FileItem md={!!md} fileName={fileName} key={idx} />
                   {idx !== imgList.length - 1 && <Divider />}
                 </>
               ))}
