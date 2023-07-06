@@ -12,7 +12,7 @@ import {
   Empty,
   Divider,
 } from 'antd'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useLocalStorageState } from 'ahooks'
 import { QiniuConfig, qiniuUpload } from '@/utils/qiniu'
 import { copyTextToClipboard } from '@/utils/copy'
@@ -170,10 +170,10 @@ function IndexPopup() {
                 </Button>
               </div>
               {imgList?.map((fileName, idx) => (
-                <>
-                  <FileItem md={!!md} fileName={fileName} key={idx} />
+                <Fragment key={fileName}>
+                  <FileItem md={!!md} fileName={fileName} />
                   {idx !== imgList.length - 1 && <Divider />}
-                </>
+                </Fragment>
               ))}
             </>
           ) : (
