@@ -66,6 +66,13 @@ function Setting() {
             >
               <Input placeholder="请输入 secretKey" />
             </FormItem>
+            <FormItem
+              name="bucket"
+              rules={[{ required: true, message: '请输入空间名称' }]}
+              label="Bucket"
+            >
+              <Input placeholder="请输入空间名称" />
+            </FormItem>
           </>
         ) : (
           <>
@@ -78,13 +85,7 @@ function Setting() {
             </FormItem>
           </>
         )}
-        <FormItem
-          name="bucket"
-          rules={[{ required: true, message: '请输入空间名称' }]}
-          label="Bucket"
-        >
-          <Input placeholder="请输入空间名称" />
-        </FormItem>
+
         <FormItem name="domain" rules={[{ required: true, message: '请输入域名' }]} label="域名">
           <Input placeholder="请输入域名" />
         </FormItem>
