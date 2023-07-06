@@ -1,7 +1,7 @@
 import { FileOutlined, InboxOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import type { TabsProps, UploadProps } from 'antd'
-import { Alert, Button, Checkbox, Input, Tabs, Tooltip, Upload, message } from 'antd'
-import { useEffect } from 'react'
+import { Alert, Button, Checkbox, Input, Tabs, Tooltip, Upload, message, Empty } from 'antd'
+import { useEffect, useState } from 'react'
 import { useLocalStorageState } from 'ahooks'
 import { QiniuConfig, qiniuUpload } from '@/utils/qiniu'
 import { copyTextToClipboard } from '@/utils/copy'
@@ -48,6 +48,7 @@ function IndexPopup() {
     defaultValue: [],
   })
   const [qiniuConfig] = useLocalStorageState<Partial<QiniuConfig>>(QINIUKEY)
+  const [activeKey, setActiveKey] = useState('1')
 
   useEffect(() => {
     document.onpaste = (event) => {
@@ -144,14 +145,24 @@ function IndexPopup() {
       style: { height: 250, overflow: 'auto' },
       children: (
         <>
-          {!!imgList?.length && (
-            <div className="mb-2 text-right">
-              <Button size="small" onClick={() => setimgList([])} type="primary" danger>
-                清除记录
+          {!!imgList?.length ? (
+            <>
+              <div className="mb-2 text-right">
+                <Button size="small" onClick={() => setimgList([])} type="primary" danger>
+                  清除记录
+                </Button>
+              </div>
+              {imgList?.map((fileName) => (
+                <FileItem md={!!md} fileName={fileName} key={fileName} />
+              ))}
+            </>
+          ) : (
+            <Empty description="暂无历史记录">
+              <Button type="primary" onClick={() => setActiveKey('1')}>
+                上传
               </Button>
-            </div>
+            </Empty>
           )}
-          {imgList?.map((fileName) => <FileItem md={!!md} fileName={fileName} key={fileName} />)}
         </>
       ),
     },
@@ -165,7 +176,13 @@ function IndexPopup() {
         padding: '0 8px 8px',
       }}
     >
-      <Tabs animated={false} defaultActiveKey="1" type="line" items={items} />
+      <Tabs
+        animated={false}
+        activeKey={activeKey}
+        onChange={setActiveKey}
+        type="line"
+        items={items}
+      />
     </div>
   )
 }
